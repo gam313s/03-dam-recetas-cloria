@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:recetasapp/models/recetas.dart';
+import 'package:recetasapp/models/receta.dart';
 
-class RecetasCard extends StatelessWidget {
-  final Recetas recetas;
+class RecetaCard extends StatelessWidget {
+  final Receta receta;
   final VoidCallback? onTap;
-
-  const RecetasCard({super.key, required this.recetas, this.onTap});
+  const RecetaCard({super.key, required this.receta, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class RecetasCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: Image.network(
-                  recetas.imagenUrl,
+                  receta.imagenUrl,
                   width: 72,
                   height: 72,
                   fit: BoxFit.cover,
@@ -41,7 +40,7 @@ class RecetasCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      recetas.nombre,
+                      receta.nombre,
                       style: const TextStyle(
                         fontSize: 14.5,
                         fontWeight: FontWeight.bold,
@@ -51,7 +50,7 @@ class RecetasCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${recetas.cocina} · ${recetas.dificultad} · ${recetas.tiempoTotal} min',
+                      '${receta.cocina} · ${receta.dificultad} · ${receta.tiempoTotal} min',
                       style: TextStyle(
                         fontSize: 11.5,
                         color: Colors.grey.shade600,

@@ -1,4 +1,4 @@
-class Recetas {
+class Receta {
   final int id;
   final String nombre;
   final List<String> ingredientes;
@@ -12,7 +12,7 @@ class Recetas {
   final String cocina;
   final String dificultad;
 
-  const Recetas({
+  const Receta({
     required this.id,
     required this.nombre,
     required this.ingredientes,
@@ -27,8 +27,8 @@ class Recetas {
     required this.dificultad,
   });
 
-  factory Recetas.fromJson(Map<String, dynamic> json) {
-    return Recetas(
+  factory Receta.fromJson(Map<String, dynamic> json) {
+    return Receta(
       id: json['id'],
       nombre: json['name'],
       ingredientes: List<String>.from(json['ingredients']),

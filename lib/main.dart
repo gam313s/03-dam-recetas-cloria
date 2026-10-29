@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'screens/splash_screen.dart';
+import 'package:recetasapp/screens/splash_screen.dart';
 
 void main() {
   runApp(const MaterialApp(

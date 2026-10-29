@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:recetasapp/models/recetas.dart';
+import 'package:recetasapp/models/receta.dart';
 import 'package:recetasapp/services/recipe_service.dart';
-import 'package:recetasapp/widgets/receta_cart.dart';
+import 'package:recetasapp/widgets/receta_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Recetas>> _recetas;
+  late Future<List<Receta>> _recetas;
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Recetas del Mayab')),
-      body: FutureBuilder<List<Recetas>>(
+      body: FutureBuilder<List<Receta>>(
         future: _recetas,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -35,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
           final recetas = snapshot.data!;
           return ListView.builder(
             itemCount: recetas.length,
-            itemBuilder: (context, i) => RecetasCard(
-              recetas: recetas[i],
+            itemBuilder: (context, i) => RecetaCard(
+              receta: recetas[i],
               onTap: () {},
             ),
           );
