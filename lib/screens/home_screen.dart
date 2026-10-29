@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:recetasapp/models/receta.dart';
 import 'package:recetasapp/services/recipe_service.dart';
@@ -5,43 +7,46 @@ import 'package:recetasapp/widgets/receta_card.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late Future<List<Receta>> _recetas;
-
-  @override
+final RecipeService _recipeService = RecipeService();
+late Future<List<Receta>> _futureRecetas;
+@override
   void initState() {
     super.initState();
-    _recetas = RecipeService().obtenerRecetas();
+    _futureRecetas = _recipeService.obtenerRecetas();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext Context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Recetas del Mayab')),
+      appBar: AppBar(
+        title: const Text('RecetasApp'),
+        backgroundColor: const Color.fromARGB(255, 80, 23, 3),
+      ),
       body: FutureBuilder<List<Receta>>(
-        future: _recetas,
-        builder: (context, snapshot) {
+        future: _futureRecetas, 
+        builder: (context, snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator(),);
           }
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: Text('Error: ${snapshot.error}'),);
           }
           final recetas = snapshot.data!;
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: recetas.length,
-            itemBuilder: (context, i) => RecetaCard(
-              receta: recetas[i],
-              onTap: () {},
-            ),
+            itemBuilder: (context, index) {
+              return RecetaCard(receta: recetas[index]);
+            },
           );
-        },
-      ),
+        },    
+        ),
     );
   }
+
 }
