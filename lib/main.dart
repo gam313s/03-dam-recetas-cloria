@@ -5,15 +5,14 @@ void main() {
   runApp(const RecetasApp());
 }
 
-class RecetasApp extends StatelessWidget {
+class RecetasApp extends StatelessWidget{
   const RecetasApp({super.key});
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MaterialApp(
-      title: 'Recetas del Mayab',
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+    title: 'Recetas del Mayab',
+    debugShowCheckedModeBanner: false,
+    home: SplashScreen(),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:recetasapp/screens/home_screen.dart';
 
@@ -24,20 +25,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 127, 1, 133),
-      body: Center( // agregado un center y puesto column como child
+      backgroundColor: const Color.fromARGB(255, 36, 35, 85),
+      body: Center(
         child: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center, //agregado crossAxisAlignment para centrar horizontalmente
-          children: [
-           Icon(Icons.restaurant, color: Colors.white, size: 90),
-           SizedBox(height: 16),
-           Text("Recetas App", style: TextStyle(color: Colors.white, fontSize: 28)),
-           SizedBox(height: 24),
-           CircularProgressIndicator(color: Colors.white),
-         ],
-       ),
-     ),
-   );
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.restaurant, color: Colors.white, size: 90),
+            SizedBox(height: 16),
+            Text(
+              "Recetas App",
+              style: TextStyle(color: Colors.white, fontSize: 28),
+            ),
+            SizedBox(height: 24),
+            CircularProgressIndicator(color: Colors.white),
+          ],
+        ),
+      ),
+    );
   }
 }
