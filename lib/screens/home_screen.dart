@@ -13,12 +13,24 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final RecipeService _recipeService = RecipeService();
-  late Future<List<Receta>> _futureRecetas;
+  final TextEditingController _buscadorController = TextEditingController();
 
+  late Future<List<Receta>> _futureRecetas;
+  List<Receta> _todasLasRecetas=[];
+  List<Receta> _recetasFiltradas=[];
+  
   @override
   void initState() {
     super.initState();
     _futureRecetas = _recipeService.obtenerRecetas();
+  }
+
+  void _filtrarRecetas(String texto){
+    setState(() {
+      _recetasFiltradas= _todasLasRecetas.where((receta){
+        return receta.nombre.toLowerCase().contains(texto.toLowerCase());
+      }).toList();
+    });
   }
 
   @override
@@ -32,7 +44,28 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         backgroundColor: const Color.fromARGB(255, 48, 27, 118),
       ),
-      body: FutureBuilder<List<Receta>>(
+      body:
+      Column(
+        children: [
+          Padding(padding: const EdgeInsets.all(12),
+          child: TextField(
+            controller: _buscadorController,
+            onChanged: _filtrarRecetas,
+            decoration: InputDecoration(
+              hintText: "Buscar receta",
+              prefixIcon: const Icon(Icons.search),
+              filled: true,
+              fillColor: Colors.white,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              )
+            ),
+          ), 
+        ),
+      Expanded(
+        child:
+       FutureBuilder<List<Receta>>(
         future: _futureRecetas,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -41,7 +74,19 @@ class _HomeScreenState extends State<HomeScreen> {
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
-          final recetas = snapshot.data!;
+          // Si es la primera vez me va a traer todas las recetas que hay 
+          if(_todasLasRecetas.isEmpty){
+            _todasLasRecetas=snapshot.data!;
+            _recetasFiltradas=snapshot.data!;
+            //esto debido a que lo primero realmente que se muestra es recetas filtradas
+          }
+
+          if(_recetasFiltradas.isEmpty){
+            return const Center(child: Text("No se Lograron Encontrar Recetas"),);
+          }
+
+         final recetas = _recetasFiltradas;
+
           return ListView.builder(
             padding: const EdgeInsets.symmetric(vertical: 8),
             itemCount: recetas.length,
@@ -49,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
               return RecetaCard(
                 receta: recetas[index],
                 onTap: () async {
-                  // PARTE AGREGADA INICIA AQUÍ
                   final bool? esFavorita = await Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -63,6 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
       ),
+    )
+    ]
+    )
     );
   }
 }
